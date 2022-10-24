@@ -1,0 +1,29 @@
+[
+    {
+        "firstname": "sek",
+        "lastname": "sek",
+        "phone": "99175200",
+        "email": "sek@gmail.com",
+        "role": "admin",
+        "password1": "sek99175200",
+        "password2": "sek99175200"
+    },
+    {
+        "firstname": "gana",
+        "lastname": "ganan",
+        "phone": "99065182",
+        "email": "gana@gmail.com",
+        "role": "user",
+        "password1": "gana1",
+        "password2": "gana1"
+    },
+    {
+        "firstname": "ami",
+        "lastname": "ami",
+        "phone": "99056042",
+        "email": "ami@gmail.com",
+        "role": "user",
+        "password1": "ami1",
+        "password2": "ami1"
+    }
+]
