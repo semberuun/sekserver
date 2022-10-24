@@ -1,11 +1,12 @@
 const express = require('express');
+const { protect, authorize } = require('../middleware/protect');
 
 const { getSafeties, createSafety, getSafety, deleteSafety } = require("../controller/safety");
 
 const router = express.Router();
 
-router.route('/').get(getSafeties).post(createSafety);
-router.route('/:id').get(getSafety).delete(deleteSafety);
+router.route('/').get(protect, getSafeties).post(protect, authorize('admin'), createSafety);
+router.route('/:id').get(protect, getSafety).delete(protect, authorize('admin'), deleteSafety);
 
 
 module.exports = router;

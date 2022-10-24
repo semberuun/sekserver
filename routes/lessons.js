@@ -7,7 +7,7 @@ const router = express.Router();
 
 //api/v1/lessons
 router.route('/video/:id').get(lessonPlayVideo);
-router.route('/:id').delete(deleteLesson);
+router.route('/:id').delete(protect, authorize('admin'), deleteLesson);
 
 module.exports = router;
 
