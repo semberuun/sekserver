@@ -129,6 +129,25 @@ exports.getUser = asyncHandler(async (req, res, next) => {
     });
 });
 
+// api/v1/user/:id/right PUT
+exports.rightUser = asyncHandler(async (req, res, next) => {
+
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+        throw new MyError(`${req.params.id} ID-тай хэрэглэгч байхгүй байна.`, 400);
+    };
+
+    const data = !user.right;
+
+    user.updateOne({ right: data }, (err) => console.log(err));
+
+    res.status(200).json({
+        success: true,
+        data: !user.right
+    });
+});
+
 // api/v1/user/:id PUT 
 exports.updateUser = asyncHandler(async (req, res, next) => {
 
@@ -140,11 +159,17 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
 
     const data = user.views;
     data.map(el => {
-        if (el === req.body.views) {
+        if (el.id === req.body.views) {
             throw new MyError(`${req.body.views} ID-тай хичээл бүртгэгдсэн байна.`, 400);
         }
     });
-    data.push(req.body.views);
+
+    const variable = {
+        id: req.body.views,
+        name: req.body.name
+    };
+
+    data.push(variable);
     user.updateOne({ views: data }, (err) => console.log(err));
 
     res.status(200).json({
@@ -181,7 +206,7 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
     };
 
     user.password = req.body.password;
-    user.save();
+    await user.save();
 
     res.status(200).json({
         success: true,

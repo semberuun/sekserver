@@ -29,9 +29,13 @@ const UserSchema = new mongoose.Schema({
         enum: ['user', 'operator', 'admin'],
         default: "user"
     },
+    right: {
+        type: Boolean,
+        required: [true, 'Хэрэглэгчийн үзэх эрхийг оруулна уу'],
+        default: false
+    },
     views: {
         type: [],
-        // ref: 'Lesson',
         default: [],
         required: true
     },
