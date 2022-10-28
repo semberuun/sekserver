@@ -15,7 +15,6 @@ const lessonsRouter = require('./routes/lessons');
 const usersRouter = require('./routes/users');
 const newsRouter = require('./routes/news');
 const safetyRouter = require('./routes/safety');
-const registerRouter = require('./routes/register');
 const errorHandler = require('./middleware/errorHandler');
 
 dotenv.config({ path: './config/config.env' });
@@ -44,7 +43,6 @@ app.use('/api/v1/lessons', lessonsRouter);
 app.use('/api/v1/user', usersRouter);
 app.use('/api/v1/news', newsRouter);
 app.use('/api/v1/safety', safetyRouter);
-app.use('/api/v1/register', registerRouter);
 app.use(errorHandler);
 
 const server = app.listen(process.env.PORT, console.log(`EXPRESS сэрвэр ${process.env.PORT} порт дээр аслаа...`.rainbow));

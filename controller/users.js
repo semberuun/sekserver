@@ -68,10 +68,9 @@ exports.userLogin = asyncHandler(async (req, res, next) => {
     if (!user) {
         throw new MyError('Та нэр болон нууц үгээ зөв оруулна уу...', 401);
     };
-    console.log(user.password);
 
     const ok = await user.checkPassword(password);
-    console.log(ok);
+
     if (!ok) {
         throw new MyError('Та нэр болон нууц үгээ зөв оруулна уу...', 401);
     };
@@ -129,7 +128,7 @@ exports.getUser = asyncHandler(async (req, res, next) => {
     });
 });
 
-// api/v1/user/:id/right PUT
+// api/v1/user/:id/change-right PUT
 exports.rightUser = asyncHandler(async (req, res, next) => {
 
     const user = await User.findById(req.params.id);
@@ -184,7 +183,7 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
         throw new MyError(`${req.params.id} ID-тай хэрэглэгч байхгүй байна.`, 400);
     };
 
-    user.remove();
+    await user.remove();
 
     res.status(200).json({
         success: true,

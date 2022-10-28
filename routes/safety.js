@@ -5,7 +5,7 @@ const { getSafeties, createSafety, getSafety, deleteSafety } = require("../contr
 
 const router = express.Router();
 
-router.route('/').get(protect, getSafeties).post(protect, authorize('admin'), createSafety);
+router.route('/').get(getSafeties).post(protect, authorize('admin'), createSafety);
 router.route('/:id').get(protect, getSafety).delete(protect, authorize('admin'), deleteSafety);
 
 
