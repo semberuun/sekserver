@@ -26,10 +26,22 @@ exports.getCategoryComments = asyncHandler(async (req, res, next) => {
     res.status(200).json({
         success: true,
         // pagination,
-        data: comments
+        data: comments.reverse()
     });
 });
 
+
+
+//api/v1/comment DELETE нэг сэтгэгдэл устгах
+exports.deletedComment = asyncHandler(async (req, res, next) => {
+
+    const comment = await Comment.findByIdAndRemove(req.params.commentId);
+
+    res.status(200).json({
+        success: true,
+        data: comment
+    });
+})
 
 
 

@@ -7,7 +7,7 @@ const path = require('path');
 exports.createNews = asyncHandler(async (req, res, next) => {
 
     const file = req.files.file;
-    console.log(file);
+
     if (!file.mimetype.startsWith('image')) {
         throw new MyError('Та зураг upload хийнэ үү...', 400);
     };
@@ -32,7 +32,13 @@ exports.createNews = asyncHandler(async (req, res, next) => {
     const count = await News.countDocuments();
     if (count === 10) {
         const data = await News.find();
-        News.deleteOne({ _id: data[0]._id }, (err) => console.log('post medee ustgah ued aldaa garlaa ' + err));
+        News.deleteOne({ _id: data[0]._id }, (err) => {
+            if (err) {
+                console.log('post medee ustgah ued aldaa garlaa ' + err);
+            } else {
+                console.log('10 болоод амжилттай устлаа...');
+            }
+        });
     };
 
     res.status(200).json({
@@ -49,9 +55,11 @@ exports.getNews = asyncHandler(async (req, res, next) => {
 
     res.status(200).json({
         success: true,
-        data: news
+        data: news.reverse()
     });
 });
+
+
 
 
 
