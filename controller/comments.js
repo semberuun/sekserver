@@ -23,6 +23,10 @@ exports.getCategoryComments = asyncHandler(async (req, res, next) => {
 
     const comments = await Comment.find({ category: req.params.categoryID });
 
+    if (!comments) {
+        throw new MyError(`Ийм ${req.params.categoryID} комментууд байхгүй байна`, 400);
+    };
+
     res.status(200).json({
         success: true,
         // pagination,
@@ -36,6 +40,10 @@ exports.getCategoryComments = asyncHandler(async (req, res, next) => {
 exports.deletedComment = asyncHandler(async (req, res, next) => {
 
     const comment = await Comment.findByIdAndRemove(req.params.commentId);
+
+    if (!comment) {
+        throw new MyError(`Ийм ${req.params.categoryID} коммент байхгүй байна`, 400);
+    };
 
     res.status(200).json({
         success: true,

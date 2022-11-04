@@ -11,7 +11,7 @@ const { createComment, getCategoryComments } = require('../controller/comments')
 
 const router = express.Router();
 
-router.route('/:categoryID/lessons').get(protect, getCategoryLessons).post(protect, createLesson);
+router.route('/:categoryID/lessons').get(protect, getCategoryLessons).post(protect, authorize('admin'), createLesson);
 router.route('/:categoryID/comment').get(protect, getCategoryComments).post(protect, createComment);
 
 router.route('/').get(getCategories).post(protect, authorize('admin'), createCategory);

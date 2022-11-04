@@ -73,6 +73,7 @@ exports.deleteCategory = asyncHandler(async (req, res, next) => {
         };
 
         category.remove();
+
         res.status(200).json({
             success: true,
             data: category

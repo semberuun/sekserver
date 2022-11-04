@@ -9,7 +9,7 @@ const paginate = require('../utils/paginate');
 exports.getSafeties = asyncHandler(async (req, res, next) => {
 
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
+    const limit = parseInt(req.query.limit) || 30;
     let select = req.query.select || 'all';
     let search = req.query.search || '';
 
@@ -38,6 +38,10 @@ exports.getSafety = asyncHandler(async (req, res, next) => {
 
     const safety = await Safety.findById(req.params.id);
 
+    if (!safety) {
+        throw new MyError(`Ийм ${req.params.id} IDтай технологийн карт байхгүй байна`, 400);
+    };
+
     res.status(200).json({
         success: true,
         data: safety.pdf
@@ -58,6 +62,7 @@ exports.deleteSafety = asyncHandler(async (req, res, next) => {
         };
 
         safety.remove();
+
         res.status(200).json({
             success: true,
             data: safety

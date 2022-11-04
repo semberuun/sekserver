@@ -4,15 +4,16 @@ const SafetySchema = new mongoose.Schema({
     cardnumber: {
         type: String,
         required: [true, 'Технологийн картын дугаарыг оруулна уу'],
+        trim: true
     },
     cardname: {
         type: {},
         required: [true, 'Технологийн картын нэрийг оруулна уу'],
+        trim: true
     },
     selectedoption: {
         type: [String],
-        required: [true, "Агуулгыг заавал оруулна уу!"],
-        trim: true
+        required: [true, "Агуулгыг заавал оруулна уу!"]
     },
     pdf: {
         type: String,
@@ -24,7 +25,6 @@ const SafetySchema = new mongoose.Schema({
         default: Date.now
     }
 });
-
 
 module.exports = mongoose.model('Safety', SafetySchema);
 

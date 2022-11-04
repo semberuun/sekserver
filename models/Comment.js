@@ -15,7 +15,7 @@ const CommentSchema = new mongoose.Schema({
         type: String,
         required: [true, "Сэтгэгдэл заавал оруулна уу..."],
         trim: true,
-        maxlength: [500000, 'хамгийн багадаа 500000 байх ёстой']
+        maxlength: [500000, 'хамгийн багадаа 500000 тэмдэгт байх ёстой']
     },
     category: {
         type: mongoose.Schema.ObjectId,
@@ -32,8 +32,5 @@ const CommentSchema = new mongoose.Schema({
     },
 },
 );
-
-
-
 
 module.exports = mongoose.model('Comment', CommentSchema);

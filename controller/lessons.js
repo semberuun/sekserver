@@ -5,7 +5,6 @@ const MyError = require('../utils/myError');
 const Lesson = require('../models/Lesson');
 const Category = require('../models/Category');
 const path = require('path');
-const paginate = require('../utils/paginate');
 
 //api/v1/categories/:categiryID/lessons POST Бичлэг хуулах Хичээл нэмэх
 exports.createLesson = asyncHandler(async (req, res, next) => {
@@ -60,7 +59,7 @@ exports.deleteLesson = asyncHandler(async (req, res, next) => {
     category.save(function (err) {
         if (err) console.log("Алдаа гарлаа хичээл тоололт дээр", err);
         console.log("saved...");
-    })
+    });
 
     lesson.remove();
 
@@ -84,12 +83,10 @@ exports.getCategoryLessons = asyncHandler(async (req, res, next) => {
         console.log("view saved...");
     });
 
-    const teacherName = category.teacherName;
-
     res.status(200).json({
         success: true,
         count,
-        teacherName,
+        teacherName: category.teacherName,
         data: lessons
     });
 });

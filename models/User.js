@@ -8,15 +8,18 @@ const UserSchema = new mongoose.Schema({
     firstname: {
         type: String,
         required: [true, 'Хэрэглэгчийн нэрийг оруулна уу'],
+        trim: true
     },
     lastname: {
         type: String,
         required: [true, 'Хэрэглэгчийн нэрийг оруулна уу'],
+        trim: true
     },
     email: {
         type: String,
-        required: [true, 'Хэрэглэгчийн утасыг оруулна уу'],
-        unique: true
+        required: [true, 'Хэрэглэгчийн имейл оруулна уу'],
+        unique: true,
+        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Имэйл хаяг буруу байна']
     },
     phone: {
         type: String,
@@ -26,7 +29,7 @@ const UserSchema = new mongoose.Schema({
     role: {
         type: String,
         required: [true, 'Хэрэглэгчийн эрхийг оруулна уу'],
-        enum: ['user', 'operator', 'admin'],
+        enum: ['user', 'operator'],
         default: "user"
     },
     right: {

@@ -12,7 +12,7 @@ const errorHandler = (err, req, res, next) => {
     };
 
     if (error.message === "jwt malformed") {
-        error.message = "Та заавал логин хийнэ үүү... SEK";
+        error.message = "Та заавал логин хийнэ үүү...";
         error.statusCode = 401;
     };
 

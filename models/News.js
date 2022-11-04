@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { slugify } = require('transliteration');
 
 const NewsSchema = new mongoose.Schema({
     name: {
@@ -7,11 +6,11 @@ const NewsSchema = new mongoose.Schema({
         required: [true, "Зарын нэрийг заавал оруулна уу!"],
         trim: true,
     },
-    slug: String,
     news: {
         type: String,
         required: [true, 'Зарыг оруулна уу!'],
-        minlength: 50
+        minlength: 50,
+        trim: true,
     },
     picture: {
         type: String,
@@ -22,11 +21,6 @@ const NewsSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-});
-
-NewsSchema.pre('save', function (next) {
-    this.slug = slugify(this.name);
-    next();
 });
 
 module.exports = mongoose.model('News', NewsSchema);

@@ -40,16 +40,13 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
 });
 
 
-//register 
+//register POST
 exports.register = asyncHandler(async (req, res, next) => {
 
     const user = await User.create(req.body);
 
-    const token = user.getJsonWebToken();
-
     res.status(200).json({
         success: true,
-        token,
         data: user
     });
 });
@@ -183,7 +180,7 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
         throw new MyError(`${req.params.id} ID-тай хэрэглэгч байхгүй байна.`, 400);
     };
 
-    await user.remove();
+    user.remove();
 
     res.status(200).json({
         success: true,
@@ -205,7 +202,7 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
     };
 
     user.password = req.body.password;
-    await user.save();
+    user.save();
 
     res.status(200).json({
         success: true,
