@@ -32,31 +32,30 @@ const accessLogStream = rfs.createStream('access.log', {
 
 app.use(cookieParser()); //req.cookies
 app.use(logger);
-app.use(cors());
 app.use(morgan('combined', { stream: accessLogStream }));
 app.use(express.json());
 app.use(fileUpload());
-app.use(express.static(path.join(__dirname, "image")));
-app.use(express.static(path.join(__dirname, "pdf")));
-app.use(express.static(path.join(__dirname, "public")));
-// app.use(express.static(path.join(__dirname, 'build')));
+app.use(cors());
+
+app.use('/api/v1/categories', categoriesRouter);
 app.use('/api/v1/lessons', lessonsRouter);
 app.use('/api/v1/user', usersRouter);
 app.use('/api/v1/news', newsRouter);
 app.use('/api/v1/safety', safetyRouter);
 app.use('/api/v1/comments', commentRouter);
-app.use('/api/v1/categories', categoriesRouter);
-app.use(errorHandler);
 
+app.use(express.static(path.join(__dirname, "image")));
+app.use(express.static(path.join(__dirname, "pdf")));
+app.use(express.static(path.join(__dirname, "public")));
 if (process.env.NODE_ENV === 'production') {
-    // Serve any static files
-    console.log(`production ajillag ehellee.........`)
     app.use(express.static(path.join(__dirname, 'build')));
-    // Handle React routing, return all requests to React app
-    app.get('*', function (req, res) {
+    app.get('/*', function (req, res) {
+        console.log(`index file ogch bna.........`)
         res.sendFile(path.join(__dirname, 'build', 'index.html'));
     });
-}
+};
+
+app.use(errorHandler);
 
 const server = app.listen(process.env.PORT, console.log(`EXPRESS сэрвэр ${process.env.PORT} порт дээр аслаа...`.rainbow));
 

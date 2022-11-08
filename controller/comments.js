@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const Comment = require('../models/Comment');
+const paginate = require('../utils/paginate');
 
 // category/:categoryId/comment POST Нэг категорилуу сэтгэгдэл бичих
 exports.createComment = asyncHandler(async (req, res, next) => {
@@ -20,8 +21,13 @@ exports.createComment = asyncHandler(async (req, res, next) => {
 
 // category/:categoryId/comment GET Нэг категорийн бүх сэтгэгдэл авах
 exports.getCategoryComments = asyncHandler(async (req, res, next) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 20;
+    ['page', 'limit'].forEach(el => delete req.query[el]);
 
-    const comments = await Comment.find({ category: req.params.categoryID });
+    const pagination = await paginate(Comment.find({ category: req.params.categoryID }), page, limit);
+
+    const comments = await Comment.find({ category: req.params.categoryID }).skip(pagination.start - 1).limit(limit);
 
     if (!comments) {
         throw new MyError(`Ийм ${req.params.categoryID} комментууд байхгүй байна`, 400);
@@ -29,11 +35,10 @@ exports.getCategoryComments = asyncHandler(async (req, res, next) => {
 
     res.status(200).json({
         success: true,
-        // pagination,
+        pagination,
         data: comments.reverse()
     });
 });
-
 
 
 //api/v1/comment DELETE нэг сэтгэгдэл устгах
