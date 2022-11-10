@@ -11,17 +11,11 @@ exports.createLesson = asyncHandler(async (req, res, next) => {
 
     const file = req.files.video;
 
-    if (!file.mimetype.startsWith('video')) {
-        throw new MyError('Та бичлэг upload хийнэ үү...', 400);
-    };
+    if (!file.mimetype.startsWith('video') && !file.mimetype.startsWith('audio')) {
+        throw new MyError('Та зөвхөн бичлэг болон аудио файл оруулна уу...', 400);
+    }
 
     file.name = `video_${Date.now()}${path.parse(file.name).ext}`;
-    // Файл хуулах
-    file.mv(`${process.env.VIDOE_UPLOAD_PATH}/` + file.name, err => {
-        if (err) {
-            throw new MyError('Бичлэгийг хуулах явцад алдаа гарлаа');
-        }
-    });
 
     const form = {
         name: req.body.form,
@@ -30,6 +24,12 @@ exports.createLesson = asyncHandler(async (req, res, next) => {
     };
 
     const lesson = await Lesson.create(form);
+    // Файл хуулах
+    file.mv(`${process.env.VIDOE_UPLOAD_PATH}/` + file.name, err => {
+        if (err) {
+            throw new MyError('Бичлэгийг хуулах явцад алдаа гарлаа');
+        }
+    });
 
     // Категори модель оруулж хичээл нэмэх тоололт хийж байна
     const category = await Category.findById(req.params.categoryID);

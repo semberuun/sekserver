@@ -72,31 +72,36 @@ exports.deleteSafety = asyncHandler(async (req, res, next) => {
 
 //api/v1/safety POST Нэг технологийн картыг хуулна
 exports.createSafety = asyncHandler(async (req, res, next) => {
-    //application/pdf
-    const file = req.files.file;
 
+    if (!req.files) {
+        throw new MyError('Та файлаа оруулна уу...', 400);
+    };
+    if (req.body.selectedoption === 'null') {
+        throw new MyError('Та заавал картын агуулгыг сонгоно уу...', 400);
+    };
+
+    const file = req.files.file;
+    //application/pdf
     if (!file.mimetype.endsWith('pdf')) {
-        throw new MyError('Та PDF file upload хийнэ үү...', 400);
+        throw new MyError('Та зөвхөн .pdf файл оруулна уу...', 400);
     };
 
     file.name = `pdf_${Date.now()}${path.parse(file.name).ext}`;
 
-    file.mv(`${process.env.PDFile_UPLOAD_PATH}/` + file.name, err => {
-        if (err) {
-            throw new MyError('PDF file хуулах явцад алдаа гарлаа');
-        };
-    });
-
-    let cardname = req.body.cardname.toLowerCase();
-
     const form = {
         cardnumber: req.body.cardnumber,
-        cardname,
+        cardname: req.body.cardname.toLowerCase(),
         selectedoption: req.body.selectedoption,
         pdf: file.name
     };
 
     const safety = await Safety.create(form);
+
+    file.mv(`${process.env.PDFile_UPLOAD_PATH}/` + file.name, err => {
+        if (err) {
+            throw new MyError('PDF file хуулах явцад алдаа гарлаа', 400);
+        };
+    });
 
     res.status(200).json({
         success: true,

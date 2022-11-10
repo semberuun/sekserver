@@ -31,7 +31,7 @@ exports.createCategory = asyncHandler(async (req, res, next) => {
 
     const file = req.files.file;
     if (!file.mimetype.startsWith('image')) {
-        throw new MyError('Та зураг upload хийнэ үү...', 400);
+        throw new MyError('Та зөвхөн зураг оруулна уу...', 400);
     };
     if (file.size > process.env.MAX_FILE_UPLOAD_PHOTO) {
         throw new MyError('Та зурагны хэмжээ хэтэрсэн байна', 400);
@@ -39,19 +39,18 @@ exports.createCategory = asyncHandler(async (req, res, next) => {
 
     file.name = `photo_${Date.now()}${path.parse(file.name).ext}`;
 
-    file.mv(`${process.env.FILE_UPLOAD_PATH}/` + file.name, err => {
-        if (err) {
-            throw new MyError('Зургийг хуулах явцад алдаа гарлаа');
-        }
-    });
-
     const form = {
         name: req.body.form,
         teacherName: req.body.teacherName,
         photo: file.name
     };
-
     const category = await Category.create(form);
+
+    file.mv(`${process.env.FILE_UPLOAD_PATH}/` + file.name, err => {
+        if (err) {
+            throw new MyError('Зургийг хуулах явцад алдаа гарлаа');
+        }
+    });
 
     res.status(200).json({
         success: true,

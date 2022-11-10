@@ -7,7 +7,7 @@ const SafetySchema = new mongoose.Schema({
         trim: true
     },
     cardname: {
-        type: {},
+        type: String,
         required: [true, 'Технологийн картын нэрийг оруулна уу'],
         trim: true
     },
