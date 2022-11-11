@@ -194,6 +194,9 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
     if (!req.body.phone) {
         throw new MyError(`Та утасны дугаараа оруулна уу`, 400);
     };
+    if (req.body.password.length < 4) {
+        throw new MyError(`Таны нууц үг шаардлага хангахгүй байна`, 400);
+    };
 
     const user = await User.findOne({ phone: req.body.phone });
 
