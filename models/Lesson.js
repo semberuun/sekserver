@@ -11,10 +11,6 @@ const LessonSchema = new mongoose.Schema({
         type: String,
         default: "no-video",
     },
-    audio: {
-        type: String,
-        default: "no-audio",
-    },
     category: {
         type: mongoose.Schema.ObjectId,
         ref: 'Category',
