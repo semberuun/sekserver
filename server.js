@@ -47,13 +47,13 @@ app.use('/api/v1/comments', commentRouter);
 app.use(express.static(path.join(__dirname, "image")));
 app.use(express.static(path.join(__dirname, "pdf")));
 app.use(express.static(path.join(__dirname, "public")));
-// if (process.env.NODE_ENV === 'production') {
-//     app.use(express.static(path.join(__dirname, 'build')));
-//     app.get('/*', function (req, res) {
-//         console.log(`index file ogch bna.........`)
-//         res.sendFile(path.join(__dirname, 'build', 'index.html'));
-//     });
-// };
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, 'build')));
+    app.get('/*', function (req, res) {
+        console.log(`index file ogch bna.........`)
+        res.sendFile(path.join(__dirname, 'build', 'index.html'));
+    });
+};
 
 app.use(errorHandler);
 
