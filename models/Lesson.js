@@ -5,7 +5,6 @@ const LessonSchema = new mongoose.Schema({
         type: String,
         required: [true, "Хичээлийн нэрийг оруулна уу..."],
         trim: true,
-        unique: true,
     },
     video: {
         type: String,

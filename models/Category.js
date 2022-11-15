@@ -5,6 +5,7 @@ const CategorySchema = new mongoose.Schema({
         type: String,
         required: [true, "Категорийн нэрийг заавал оруулна уу!"],
         trim: true,
+        unique: true,
     },
     photo: {
         type: String,
