@@ -15,7 +15,7 @@ const CommentSchema = new mongoose.Schema({
         type: String,
         required: [true, "Сэтгэгдэл заавал оруулна уу..."],
         trim: true,
-        maxlength: [500000, 'хамгийн багадаа 500000 тэмдэгт байх ёстой']
+        maxlength: [1000, 'Хамгийн ихдээ 1000 тэмдэгт байх ёстой']
     },
     category: {
         type: mongoose.Schema.ObjectId,
