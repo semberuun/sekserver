@@ -62,11 +62,17 @@ exports.deleteLesson = asyncHandler(async (req, res, next) => {
     });
 
     lesson.remove();
+    fs.unlink(`${process.env.VIDOE_UPLOAD_PATH}/` + lesson.video, err => {
+        if (err) {
+            throw new MyError('Видео устгах явцад алдаа гарлаа');
+        };
 
-    res.status(200).json({
-        success: true,
-        data: lesson
+        res.status(200).json({
+            success: true,
+            data: lesson
+        });
     });
+
 });
 
 //api/v1/categories/:categoryId/lessons GET
